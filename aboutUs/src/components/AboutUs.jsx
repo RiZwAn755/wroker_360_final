@@ -1,12 +1,13 @@
 
-import './AboutUs.css'
-import { Link } from "react-router-dom";
+import './aboutus.css'
+// import { Link } from "react-router-dom";
 
-function AboutUs() {
+function Aboutus() {
  
 
     return (
       <div className='Page'>
+
            <div className="Heading">
             About Us
            </div>
@@ -58,11 +59,11 @@ Join Geth today and discover a world of opportunities and convenience.  Whether 
 
 
            </div>
-           <Link to = "/About"> Go to about us</Link>
+           {/* <Link to = "/About"> Go to about us</Link> */}
       </div>
 
     )
   }
   
-  export default AboutUs;
+  export default Aboutus;
   

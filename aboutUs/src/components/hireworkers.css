@@ -1,0 +1,78 @@
+
+.card
+{
+    display: inline-block;
+    border:2px solid black;
+    margin: 10px;
+    border-radius:10px;
+
+}
+p{
+    margin: 10px;
+}
+
+.section
+{
+    margin: 10px;
+    border:2px solid black;
+   
+    border-radius: 10px;
+    
+}
+
+.sectionHeading
+{
+    color: black;
+    text-align: center;
+}
+
+
+.photo
+{
+  margin:10px;
+  width: 400px;
+  height:250px;  
+  border-radius: 10px ;
+}
+
+.btnn
+{
+    background-color: aquamarine;
+    margin-left:170px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+}
+.searchbar
+{
+    margin-left: 30%;
+    
+    margin-bottom: 5x;
+    margin-top: 10px;
+    width: 40%;
+    height: 50px;
+    border:2px solid  cornflowerblue;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: 900;
+    font-size: x-large;
+}
+.sbt
+{
+    width:80px;
+    height: 50px;
+    background-color: white;
+    
+    cursor:grab;
+   border: 2px solid cornflowerblue;
+    font-size: xx-large;
+    border-radius: 20px;
+}
+
+.cc
+{
+    margin-top: 5px;
+    margin-left:47%;
+}

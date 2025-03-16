@@ -1,0 +1,58 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.Parent
+{
+     background-color: cornflowerblue;
+     background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5)), 
+              url("../assets/bg.png");
+     height: 100vh;
+     margin-top: 10px;
+     border: 2px solid black;
+     border-radius: 10px ;
+
+}
+
+.Texts {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: black;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    border: 2px solid black;
+    padding: 30px;
+    border-radius: 20px;
+}
+
+.Text1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.Text2 {
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+
+.click
+{
+    background-color: cornflowerblue;
+    border-radius: 10px;
+    width: 250px;
+    height: 60px;    
+    
+}
+.click :hover
+{
+    color: whitesmoke;
+    cursor:grabbing;
+}
