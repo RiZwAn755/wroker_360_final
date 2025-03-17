@@ -32,6 +32,18 @@ app.post("/login", async (req, resp) => {
        }
 });
 
+app.get("/workList", async (req , resp) =>{
+     
+  let wrker = await worker.find();
+  if(wrker)
+  {
+        resp.send(wrker);
+  }
+  else{
+    resp.send("No wroker Found")
+  }
+})
+
 
 // signup API for worker
 app.post("/wkreg", async (req, resp) => {

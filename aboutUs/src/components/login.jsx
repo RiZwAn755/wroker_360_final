@@ -24,7 +24,7 @@ function Login()
             alert("Logged in successfully");
             console.log(result);
             localStorage.setItem("email", email);
-            navigate("/hero");
+            navigate("/");
           } else {
             alert("Enter the correct credentials");
             console.error("Login error:", result);
@@ -32,7 +32,7 @@ function Login()
         };
 
     return (
-        <div >
+        <div className="lgnprnt" >
            <form className = "loginfo" action="" onSubmit={handlesubmit} style={{backgroundColor:"cornflowerblue"}}>
                  <div><h1 style={{color:"black", margin:"20px"}}> welcome Back </h1></div>
                  <input className = "inpt" value = {email} type="text" placeholder="Enter your email"  onChange={(e)=>

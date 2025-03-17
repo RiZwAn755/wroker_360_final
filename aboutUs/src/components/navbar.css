@@ -1,3 +1,8 @@
+.lgnprnt
+{
+    height: 100vh;
+}
+
 .navBar {
     background-color: cornflowerblue;
     display: flex;
