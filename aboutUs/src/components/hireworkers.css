@@ -1,9 +1,6 @@
-
 .xx
 {
-    margin:0;
-    padding:0;
-    height: 100vh;
+  height: 100vh;
 }
 .card
 {
@@ -19,10 +16,10 @@ p{
 
 .section
 {
-    margin: 10px;
-    border:2px solid black;
-   
-    border-radius: 10px;
+    /* margin: 10px; */
+    /* border:2px solid black; */
+   height: 90vh;
+    /* border-radius: 10px; */
     
 }
 
@@ -83,69 +80,43 @@ p{
     margin-left:47%;
 }
 
-/* Table Container */
-table {
-    margin: 2%;
-    width: 100%;
-    
-    border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Table Header */
-  thead {
-    background: #007bff;
-    color: white;
-  }
-  
-  th {
-    padding: 14px;
-    text-align: left;
-    font-weight: bold;
-  }
-  
-  /* Table Rows */
-  tr {
-    border-bottom: 1px solid #ddd;
-    transition: 0.3s;
-  }
-  
-  tr:hover {
-    background: #f1f7ff;
-  }
-  
-  /* Alternate Row Colors */
-  tr:nth-child(even) {
-    background: #f9f9f9;
-  }
-  
-  /* Table Data Cells */
-  td {
-    padding: 12px;
-    color: #333;
-    margin: 3%;
-  }
-  
-  /* No Worker Found Message */
-  tbody tr td[colspan="5"] {
-    text-align: center;
-    font-size: 18px;
-    color: #555;
-    padding: 20px;
-   
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    table {
-      font-size: 14px;
-    }
-  
-    th, td {
-      padding: 10px;
-    }
-  }
-  
+.grid {
+  /* background-color: blueviolet; */
+  border-radius: 10px;
+  margin: 1%;
+
+  height: 85%;
+  display: flex;
+  flex-wrap: wrap; /* Ensure responsiveness */
+  gap: 5px; /* Reduce gap between items */
+  overflow-y: scroll;
+  justify-content: center; /* Center items in the grid */
+  align-items: flex-start; /* Ensure items start at the top */
+}
+
+.ingrid {  
+  background-color:bisque;
+  border: 2px solid black;
+  padding: 5px;
+  border-radius: 20px;
+  width: 300px; /* Fixed width */
+  height: 300px; /* Fixed height */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: flex-end; /* Align content to the bottom */
+  box-sizing: border-box; /* Ensures padding and border are included in size */
+  overflow: hidden; 
+}
+
+
+.ingrid ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  list-style-type: none;
+  padding: 0;
+}

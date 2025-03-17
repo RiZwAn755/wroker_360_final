@@ -8,6 +8,7 @@ function AddWorker() {
   const [occupation, setOccupation] = useState("");
   const [wageperhr, setWageperhr] = useState("");
   const [location, setLocation] = useState("");
+ 
   const navigate = useNavigate();
 
   const handlewrkr= async (e) => {
@@ -33,6 +34,10 @@ function AddWorker() {
       <h1 style={{ textAlign: "center", color: "black" }}>
         New Worker Registration
       </h1>
+       <input type="file"
+        placeholder="upload your photo" 
+        value={(e)=>{e.target.files[0]}}
+       />
         <input
           className="ip"
           value={name}

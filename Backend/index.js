@@ -1,12 +1,30 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+
+const multer = require("multer"); // a middleware to upload media 
+
 require("./DB/config");
 const client = require("./DB/client");
 const worker = require("./DB/worker");
 
 app.use(cors());
 app.use(express.json());
+
+
+// setting up multer
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+    
+    cb(null, Date.now() + "-" + file.originalname)
+  }
+})
+
+const upload = multer({storage })
 
 // signup API for client
 app.post("/clreg", async (req, resp) => {
@@ -33,7 +51,7 @@ app.post("/login", async (req, resp) => {
 });
 
 app.get("/workList", async (req , resp) =>{
-     
+    //  
   let wrker = await worker.find();
   if(wrker)
   {
@@ -48,6 +66,7 @@ app.get("/workList", async (req , resp) =>{
 // signup API for worker
 app.post("/wkreg", async (req, resp) => {
   
+
     console.log("Received registration request:", req.body);
     let result = new worker(req.body);
     await result.save();
@@ -56,6 +75,17 @@ app.post("/wkreg", async (req, resp) => {
     resp.send(result);
   
 });
+
+// app.post("/wkrimg", upload.single("image"), async (req, resp) => {
+  
+//   const {path , filename} = req.file;
+    
+//     let result = new imagee({path,filename});
+//     await result.save();
+   
+//     resp.send(result);
+  
+// });
 
 // search API for finding worker based on wage per hr
 app.get("/search/:key", async (req, resp) => {

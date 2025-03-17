@@ -4,7 +4,7 @@ import "./hireworkers.css";
 function Hireworker() {
   const [worker, setWorker] = useState([]);
 
-  const getProduct = async () => {
+  const getWorker = async () => {
     let wrkr = await fetch("http://localhost:3500/worklist");
     wrkr = await wrkr.json();
 
@@ -14,62 +14,75 @@ function Hireworker() {
     }
   };
 
-  const handleHire = (e)=>{
-   e.preventDefault();
-   alert("payment kar na bhadwe")
+  const handleHire = (e) => {
+    e.preventDefault();
+    alert("payment kar na bhadwe")
   }
 
+  // to call the grid once ony in starting
   useEffect(() => {
-    getProduct();
+    getWorker();
   }, []);
 
-  return (
-    <div className="xx">
-      <div className="section">
-        <input
-          className="searchbar"
-          type="text"
-          placeholder="Find worker"
-        ></input>
-        <div className="cc">
-          <button className="sbt">🔍</button>
-        </div>
+  const handleSearch = async (e) => {
+    let key = e.target.value.trim(); // ek jaruri cheezzzzzzzzzzzzz
 
-        <div>
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Occupation</th>
-                <th>Experience</th>
-                <th>Fee/hr</th>
-                <th>Location</th>
-                <th>Hire</th>
-              </tr>
-            </thead>
-            <tbody>
-              {worker.length > 0 ? (
-                worker.map((item, index) => (
-                  <tr key={item._id || index}>
-                    <td>{item.name}</td>
-                    <td>{item.occupation}</td>
-                    <td>{item.experience}</td>
-                    <td>${item.wageperhr}</td>
-                    <td>{item.location}</td>
-                    <td><button style={{backgroundColor:"cornflowerblue" , width:"80%",height:"35px" , borderRadius:"10px"}} onClick={handleHire}>Hire Me</button></td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5">No workers found</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+    if (key === "") {
+        getWorker();
+        return;
+    }
+
+    
+        let response = await fetch(`http://localhost:3500/search/${key}`);
+        let result = await response.json();
+
+        if (result.length > 0) {
+            setWorker(result);
+        } else {
+            setWorker([]); 
+        }
+    
+};return (
+  <div className="xx">
+    <div className="section">
+   
+      <input
+        className="searchbar"
+        type="text"
+        placeholder="Find worker"
+        onChange={handleSearch} // searches on each chr
+      />
+
+     
+
+      <div className="grid">
+        {worker.length > 0 ? (
+          worker.map((item, index) => (
+            <div className="ingrid" key={index}>  {/*har ek grid k liye alag key*/}
+              <ul>
+                <li>Name: {item.name}</li>
+                <li>Work-Type: {item.occupation}</li>
+                <li>Exp: {item.experience}</li>
+                <li>Cost: {item.wageperhr}rs/hr</li>
+                <li>📍 {item.location}</li>
+                <li>
+                  <button 
+                    style={{ background: "skyblue", height: "30px", width: "70px", borderRadius: "10px", cursor: "grab" }}
+                    onClick={handleHire}
+                  >
+                    Hire me
+                  </button>
+                </li>
+              </ul>
+            </div>
+          ))
+        ) : (
+          <h1>No worker Here</h1>
+        )}
       </div>
     </div>
-  );
-}
+  </div>
+)};
+
 
 export default Hireworker;
