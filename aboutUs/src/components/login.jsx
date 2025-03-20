@@ -8,6 +8,7 @@ function Login()
 
     const [email , setEmail] = useState("")
     const [password , setPassword] = useState("");
+    // const [reme, setReme] = useState("false");
    
 
     const handlesubmit = async (e)=>{
@@ -23,6 +24,7 @@ function Login()
           if (response.ok) {
             alert("Logged in successfully");
             console.log(result);
+              // if(e.target.value == "remember me")
             localStorage.setItem("email", email);
             navigate("/");
           } else {
@@ -46,7 +48,12 @@ function Login()
                     }
                  } />
                  <button className = "lognbtn" type="submit"> login </button>
+                 <br />
+                
+                 {/* <input type="checkbox"  id="remember" value="remember me"/> */}
+                 {/* <label style={{color:"white" , fontSize:"large"}} htmlFor="reme">remeber me</label> */}
            </form>
+          
         </div>
     )
 }

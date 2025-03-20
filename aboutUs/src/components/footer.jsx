@@ -31,7 +31,7 @@ function Footer(){
                    </div>
                   
         </div>
-         <h4 style={{textAlign:"center" , backgroundColor:"cornflowerblue"}}> <i>All rights are reserved to </i><span>Worker<span style={{color:"orange"}}>360 </span></span></h4>
+         <h4 style={{textAlign:"center" , backgroundColor:"cornflowerblue"}}> <i>All rights are reserved to @</i><span>Worker<span style={{color:"orange"}}>360 </span></span>  2025</h4>
          </>
     )
 }

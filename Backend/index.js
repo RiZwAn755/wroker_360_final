@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-
+const path  = require("path")
 const multer = require("multer"); // a middleware to upload media 
 
 require("./DB/config");
@@ -10,17 +10,19 @@ const worker = require("./DB/worker");
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({extended : true}));
 
+app.use("/uploads" , express.static("uploads")); // serve uploaded image statically
 
 // setting up multer
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads')
+    cb(null, './uploads')  // store image in uploads folder
   },
   filename: function (req, file, cb) {
     
-    cb(null, Date.now() + "-" + file.originalname)
+    cb(null, Date.now() + path.extname(file.originalname)); // to make a unique filename
   }
 })
 
@@ -53,47 +55,58 @@ app.post("/login", async (req, resp) => {
 app.get("/workList", async (req , resp) =>{
     //  
   let wrker = await worker.find();
-  if(wrker)
+  if(wrker.length > 0)
   {
-        resp.send(wrker);
+        resp.status(201).send(wrker);
   }
   else{
-    resp.send("No wroker Found")
+    resp.status(404).send("No wroker Found");
   }
 })
 
 
 // signup API for worker
-app.post("/wkreg", async (req, resp) => {
-  
+app.post("/wkreg", upload.single("picture"), async (req, resp) => {
+  try {
+    const { name, occupation, experience, wageperhr, location } = req.body;
 
-    console.log("Received registration request:", req.body);
-    let result = new worker(req.body);
-    await result.save();
-    result = result.toObject();
-    console.log("Registration successful:", result);
-    resp.send(result);
-  
+    // Store the file name if a file is uploaded
+    const picture = req.file ? req.file.filename : null;
+
+    let newWorker = new worker({
+      name,
+      occupation,
+      experience,
+      wageperhr,
+      location,
+      picture, // Save the picture filename in the database
+    });
+
+    await newWorker.save();
+    resp.status(201).send(newWorker);
+  } catch (error) {
+    console.error("Error during worker registration:", error);
+    resp.status(500).send({ error: "Worker registration failed" });
+  }
 });
 
-// app.post("/wkrimg", upload.single("image"), async (req, resp) => {
-  
-//   const {path , filename} = req.file;
-    
-//     let result = new imagee({path,filename});
-//     await result.save();
-   
-//     resp.send(result);
-  
-// });
 
+// app.post("/wkrimg", upload.single("image"), async (req, resp) => {
+//   const {path , filename} = req.file;  
+//     let result = new imagee({path,filename});
+//     await result.save(); 
+//     resp.send(result);
+// });
 // search API for finding worker based on wage per hr
+
+
 app.get("/search/:key", async (req, resp) => {
   
     let result = await worker.find({
       "$or": [
         { wageperhour: { $regex: req.params.key, $options: "i" } },
-        { location: { $regex: req.params.key, $options: "i" } }
+        { location: { $regex: req.params.key, $options: "i" } },
+        { name: { $regex: req.params.key, $options: "i" } }
       ]
     });
 
@@ -106,4 +119,4 @@ app.get("/search/:key", async (req, resp) => {
 });
 
 app.listen(3500);
-  
+

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Aboutus from "./components/aboutus";
+import Aboutus from "./components/aboutUs";
 import Nav from "./components/navbar";
 import Hero from "./components/hero";
 import Hireworker from "./components/hireworkers";

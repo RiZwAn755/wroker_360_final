@@ -8,17 +8,28 @@ function AddWorker() {
   const [occupation, setOccupation] = useState("");
   const [wageperhr, setWageperhr] = useState("");
   const [location, setLocation] = useState("");
- 
+  const [picture, setPicture] = useState(null);
+
+
   const navigate = useNavigate();
 
-  const handlewrkr= async (e) => {
+  const handlewrkr = async (e) => {
 
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("experience", experience);
+    formData.append("occupation", occupation);
+    formData.append("wageperhr", wageperhr);
+    formData.append("location", location);
+    if (picture)
+      formData.append("picture", picture);
+
+
     const res = await fetch("http://localhost:3500/wkreg", {
       method: "POST",
-      headers: { "Content-Type": "application/json"},
-      body: JSON.stringify({ name, experience,occupation, wageperhr, location }),
+      body: formData,
     });
 
     let result = await res.json();
@@ -28,17 +39,30 @@ function AddWorker() {
   };
 
   return (
-    <div className="sgnup">      
+    <div className="sgnup">
 
       <form className="frm" action="" onSubmit={handlewrkr}>
-      <h1 style={{ textAlign: "center", color: "black" }}>
-        New Worker Registration
-      </h1>
-       <input type="file"
-        placeholder="upload your photo" 
-        value={(e)=>{e.target.files[0]}}
-       />
+        <h1 style={{ textAlign: "center", color: "black" }}>
+          New Worker Registration
+        </h1>
+
+<label htmlFor="pp" style={{textAlign:"center" , marginTop:"10px" , marginBottom:"0px"}}>Upload your profile picture</label>
         <input
+        style={{color:"cornflowerblue" , margin:"10px" , width:"60%" , border:"1px solid cornflowerblue" , padding:"10px"}}
+          type="file"
+          id="pp"
+          name="picture" // This must match the key expected by multer in the backend
+          accept="image/*"
+          
+          onChange={(e) => {
+            if (e.target.files && e.target.files[0]) {
+              setPicture(e.target.files[0]);
+            }
+          }}
+        />
+
+        <input
+        
           className="ip"
           value={name}
           type="text"
@@ -68,7 +92,7 @@ function AddWorker() {
           }}
         />
 
-         <input
+        <input
           className="ip"
           value={wageperhr}
           type="text"
@@ -76,7 +100,7 @@ function AddWorker() {
           onChange={(e) => {
             setWageperhr(e.target.value);
           }}
-        />           
+        />
 
         <input
           className="ip"
@@ -88,7 +112,7 @@ function AddWorker() {
           }}
         />
 
-        <button type="submit"> Reg now</button>
+        <button type="submit" style={{width:"100px" , height:"30px" , backgroundColor:"skyblue" , borderRadius:"10px" , cursor : "grabbing"}}>Register now</button>
       </form>
     </div>
   );
