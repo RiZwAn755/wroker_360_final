@@ -25,6 +25,9 @@ function Login()
             alert("Logged in successfully");
             console.log(result);
               // if(e.target.value == "remember me")
+              // STORING TOKEN FROM THE RESPONSE
+              localStorage.setItem("token", result.token); 
+
             localStorage.setItem("email", email);
             navigate("/");
           } else {

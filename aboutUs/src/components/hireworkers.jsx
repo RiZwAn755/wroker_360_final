@@ -5,19 +5,27 @@ function Hireworker() {
   const [worker, setWorker] = useState([]);
 
   const getWorker = async () => {
-    let wrkr = await fetch("http://localhost:3500/worklist");
-    wrkr = await wrkr.json();
+    const token = localStorage.getItem("token"); // Retrieve the token from localStorage
 
-    // Assuming the response is an array
-    if (wrkr.length > 0) {
+    let response = await fetch("http://localhost:3500/worklist" ,{
+      method:"GET",
+      headers:{
+        Authorization:`bearer ${token}`
+      }
+    });
+   let  wrkr =  await response.json(); // asynchronous task
+    
+    if (response.ok) {
+      
       setWorker(wrkr);
       // console.log(wrkr.location);
     }
+   
   };
 
   const handleHire = (e) => {
     e.preventDefault();
-    alert("Payment kar");
+    alert("Payment to karna padiingaaaa meri Jaaaan");
   };
 
   // Fetch workers when the component loads
@@ -26,20 +34,29 @@ function Hireworker() {
   }, []);
 
   const handleSearch = async (e) => {
+    
     let key = e.target.value.trim();
+    const token = localStorage.getItem("token"); // Retrieve the token from localStorage
 
     if (key === "") {
       getWorker();
       return;
     }
 
-    let response = await fetch(`http://localhost:3500/search/${key}`);
-    let result = await response.json();
-
-    if (result.length > 0) {
-      setWorker(result);
+    let response = await fetch(`http://localhost:3500/search/${key}`,{
+      method:"GET",
+      headers:{
+        Authorization:`bearer ${token}`,
+      },
+    });
+   
+    if (response.ok) {
+      const result = await response.json();
+      setWorker(result); // Update the worker state with the search results
     } else {
-      setWorker([]);
+      const errorData = await response.json();
+      console.error("Search error:", errorData.message);
+      setWorker([]); // Clear the worker state if no results are found
     }
   };
 

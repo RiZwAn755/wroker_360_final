@@ -1,18 +1,43 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const path  = require("path")
+const path = require("path")
 const multer = require("multer"); // a middleware to upload media 
 
 require("./DB/config");
 const client = require("./DB/client");
 const worker = require("./DB/worker");
+var jwt = require('jsonwebtoken');
+const secretKey = "lodu";
 
+// middleware to verify token
+const bherifyjwt = (req, resp , next) => {
+
+  const bearerHeader = req.headers['authorization'];
+  if (typeof (bearerHeader) !== 'undefined') {
+    const bearer = bearerHeader.split(" ");
+    const token = bearer[1];
+    req.token = token;
+
+    jwt.verify(req.token, secretKey, (err, authData) => {
+      if (!err) {
+        req.authData = authData; // Attach auth data to the request
+        next();
+      }
+      else {
+        resp.status(401).send({ message: "Invalid token" });
+      }
+    })
+  }
+  else {
+    resp.status(403).send({ message: "Token not found" });
+  }
+}
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({extended : true}));
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/uploads" , express.static("uploads")); // serve uploaded image statically
+app.use("/uploads", express.static("uploads")); // serve uploaded image statically
 
 // setting up multer
 
@@ -21,52 +46,57 @@ const storage = multer.diskStorage({
     cb(null, './uploads')  // store image in uploads folder
   },
   filename: function (req, file, cb) {
-    
+
     cb(null, Date.now() + path.extname(file.originalname)); // to make a unique filename
   }
 })
 
-const upload = multer({storage })
+const upload = multer({ storage })
 
 // signup API for client
 app.post("/clreg", async (req, resp) => {
- 
-    console.log("Received registration request:", req.body);
-    let result = new client(req.body);
-    await result.save();
-    result = result.toObject();
-    resp.send(result);
- 
+
+  console.log("Received registration request:", req.body);
+  let result = new client(req.body);
+  await result.save();
+  result = result.toObject();
+  resp.send(result);
+
 });
 
 app.post("/login", async (req, resp) => {
-  
-    let user = await client.findOne({ email: req.body.email, password:req.body.password }).select("-password");
+  let user = await client.findOne({ email: req.body.email, password: req.body.password }).select("-password");
 
-    if (!user) {
-      return resp.status(404).send({ error: "User not found" });
-    }
-   else{
-           
-             resp.send(user);
-       }
+  if (user) {
+    jwt.sign({ user }, secretKey, { expiresIn: "3000s" }, (err, token) => {
+      if (!err) {
+        resp.status(200).send({ user, token }); // Send both user data and token
+      } else {
+        resp.status(500).send({ message: "Error generating token" });
+      }
+    });
+  } else {
+    resp.status(404).send({ message: "Invalid credentials" });
+  }
+
+
+
 });
 
-app.get("/workList", async (req , resp) =>{
-    //  
+app.get("/workList", bherifyjwt, async (req, resp) => {
+  //  
   let wrker = await worker.find();
-  if(wrker.length > 0)
-  {
-        resp.status(201).send(wrker);
+  if (wrker.length > 0) {
+    resp.status(201).send(wrker);
   }
-  else{
+  else {
     resp.status(404).send("No wroker Found");
   }
 })
 
 
 // signup API for worker
-app.post("/wkreg", upload.single("picture"), async (req, resp) => {
+app.post("/wkreg", bherifyjwt, upload.single("picture"), async (req, resp) => {
   try {
     const { name, occupation, experience, wageperhr, location } = req.body;
 
@@ -100,22 +130,29 @@ app.post("/wkreg", upload.single("picture"), async (req, resp) => {
 // search API for finding worker based on wage per hr
 
 
-app.get("/search/:key", async (req, resp) => {
-  
-    let result = await worker.find({
-      "$or": [
-        { wageperhour: { $regex: req.params.key, $options: "i" } },
-        { location: { $regex: req.params.key, $options: "i" } },
-        { name: { $regex: req.params.key, $options: "i" } }
-      ]
+app.get("/search/:key", bherifyjwt, async (req, resp) => {
+  try {
+    const key = req.params.key;
+
+    // Perform a case-insensitive search on multiple fields
+    const result = await worker.find({
+      $or: [
+        { wageperhr: { $regex: key, $options: "i" } }, // Corrected field name
+        { location: { $regex: key, $options: "i" } },
+        { name: { $regex: key, $options: "i" } },
+        { occupation: { $regex: key, $options: "i" } },
+      ],
     });
 
     if (result.length > 0) {
-      resp.send(result);
+      resp.status(200).send(result);
     } else {
       resp.status(404).send({ message: "No workers found" });
     }
- 
+  } catch (error) {
+    console.error("Error during search:", error);
+    resp.status(500).send({ error: "Search failed" });
+  }
 });
 
 app.listen(3500);

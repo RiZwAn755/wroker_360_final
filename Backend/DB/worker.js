@@ -6,8 +6,8 @@ const workerSchema = new mongoose.Schema({
     picture:{type:String},
     name:{type:String},
     occupation:{type:String},
-    experience:{type:String},
-    wageperhr:{type:String},
+    experience:{type:Number},
+    wageperhr:{type:Number},
     location:{type:String},
 });
 

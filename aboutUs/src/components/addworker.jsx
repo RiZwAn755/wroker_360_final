@@ -10,12 +10,16 @@ function AddWorker() {
   const [location, setLocation] = useState("");
   const [picture, setPicture] = useState(null);
 
-
   const navigate = useNavigate();
 
   const handlewrkr = async (e) => {
-
     e.preventDefault();
+    const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+
+    if (!token) {
+      alert("You are not authorized. Please log in.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("name", name);
@@ -23,37 +27,63 @@ function AddWorker() {
     formData.append("occupation", occupation);
     formData.append("wageperhr", wageperhr);
     formData.append("location", location);
-    if (picture)
-      formData.append("picture", picture);
+    if (picture) formData.append("picture", picture);
 
+    try {
+      const res = await fetch("http://localhost:3500/wkreg", {
+        method: "POST",
+        headers: {
+          Authorization: `bearer ${token}`, 
+        },
+        body: formData,
+      });
 
-    const res = await fetch("http://localhost:3500/wkreg", {
-      method: "POST",
-      body: formData,
-    });
-
-    let result = await res.json();
-    alert("worker profile created sucessfully");
-    console.log("worker details : ", result);
-    navigate('/hireworker');
+      if (res.ok) {
+        const result = await res.json();
+        alert("Worker profile created successfully");
+        console.log("Worker details:", result);
+        navigate("/hireworker");
+      } else {
+        const errorData = await res.json();
+        console.error("Error:", errorData.message);
+        alert(errorData.message || "Failed to register worker");
+      }
+    } catch (error) {
+      console.error("Error during worker registration:", error);
+      alert("An error occurred while registering the worker");
+    }
   };
 
   return (
     <div className="sgnup">
-
       <form className="frm" action="" onSubmit={handlewrkr}>
         <h1 style={{ textAlign: "center", color: "black" }}>
           New Worker Registration
         </h1>
 
-<label htmlFor="pp" style={{textAlign:"center" , marginTop:"10px" , marginBottom:"0px"}}>Upload your profile picture</label>
+        <label
+          htmlFor="pp"
+          style={{
+            textAlign: "center",
+            marginTop: "10px",
+            marginBottom: "0px",
+            
+          }}
+        >
+          Upload your profile picture
+        </label>
         <input
-        style={{color:"cornflowerblue" , margin:"10px" , width:"60%" , border:"1px solid cornflowerblue" , padding:"10px"}}
+          style={{
+            color: "cornflowerblue",
+            margin: "10px",
+            width: "60%",
+            border: "1px solid cornflowerblue",
+            padding: "10px",
+          }}
           type="file"
           id="pp"
-          name="picture" // This must match the key expected by multer in the backend
+          name="picture"
           accept="image/*"
-          
           onChange={(e) => {
             if (e.target.files && e.target.files[0]) {
               setPicture(e.target.files[0]);
@@ -62,11 +92,10 @@ function AddWorker() {
         />
 
         <input
-        
           className="ip"
           value={name}
           type="text"
-          placeholder="Enter your full name"
+          placeholder="Enter your full name "
           onChange={(e) => {
             setName(e.target.value);
           }}
@@ -76,7 +105,7 @@ function AddWorker() {
           className="ip"
           value={experience}
           type="text"
-          placeholder="Enter your experience"
+          placeholder="Enter your experience in years"
           onChange={(e) => {
             setExperience(e.target.value);
           }}
@@ -96,7 +125,7 @@ function AddWorker() {
           className="ip"
           value={wageperhr}
           type="text"
-          placeholder="Enter your fees per hour"
+          placeholder="Enter your fees per hour in rupees"
           onChange={(e) => {
             setWageperhr(e.target.value);
           }}
@@ -106,13 +135,24 @@ function AddWorker() {
           className="ip"
           value={location}
           type="text"
-          placeholder="Enter your location"
+          placeholder="Locations where you are available"
           onChange={(e) => {
             setLocation(e.target.value);
           }}
         />
 
-        <button type="submit" style={{width:"100px" , height:"30px" , backgroundColor:"skyblue" , borderRadius:"10px" , cursor : "grabbing"}}>Register now</button>
+        <button
+          type="submit"
+          style={{
+            width: "100px",
+            height: "30px",
+            backgroundColor: "skyblue",
+            borderRadius: "10px",
+            cursor: "grabbing",
+          }}
+        >
+          Register now
+        </button>
       </form>
     </div>
   );
