@@ -39,6 +39,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/uploads", express.static("uploads")); // serve uploaded image statically
 
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
+  next();
+});
+
 // setting up multer
 
 const storage = multer.diskStorage({
@@ -98,7 +104,7 @@ app.get("/workList", bherifyjwt, async (req, resp) => {
 // signup API for worker
 app.post("/wkreg", bherifyjwt, upload.single("picture"), async (req, resp) => {
   try {
-    const { name, occupation, experience, wageperhr, location } = req.body;
+    const { name, occupation, experience, wageperhr, location , mobile } = req.body;
 
     // Store the file name if a file is uploaded
     const picture = req.file ? req.file.filename : null;
@@ -109,6 +115,7 @@ app.post("/wkreg", bherifyjwt, upload.single("picture"), async (req, resp) => {
       experience,
       wageperhr,
       location,
+      mobile,
       picture, // Save the picture filename in the database
     });
 
@@ -127,21 +134,24 @@ app.post("/wkreg", bherifyjwt, upload.single("picture"), async (req, resp) => {
 //     await result.save(); 
 //     resp.send(result);
 // });
-// search API for finding worker based on wage per hr
 
 
+// search API for finding worker based on wage per hr / loaction /name / occupation
 app.get("/search/:key", bherifyjwt, async (req, resp) => {
   try {
     const key = req.params.key;
 
+    // Check if the key is numeric
+    const isNumeric = !isNaN(key);
+
     // Perform a case-insensitive search on multiple fields
     const result = await worker.find({
       $or: [
-        { wageperhr: { $regex: key, $options: "i" } }, // Corrected field name
+        isNumeric ? { wageperhr: key } : null, // Match exact wage if numeric
         { location: { $regex: key, $options: "i" } },
         { name: { $regex: key, $options: "i" } },
         { occupation: { $regex: key, $options: "i" } },
-      ],
+      ].filter(Boolean), // Remove null conditions
     });
 
     if (result.length > 0) {

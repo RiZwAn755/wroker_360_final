@@ -9,6 +9,7 @@ const workerSchema = new mongoose.Schema({
     experience:{type:Number},
     wageperhr:{type:Number},
     location:{type:String},
+    mobile:{type:String},
 });
 
 module.exports = mongoose.model("worker" , workerSchema);
