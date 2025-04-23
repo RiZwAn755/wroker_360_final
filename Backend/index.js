@@ -101,6 +101,11 @@ app.get("/workList", bherifyjwt, async (req, resp) => {
 })
 
 
+app.get('/' , (req,resp) =>{
+  resp.send("hola amigo , kaise ho theek ho ?");
+})
+
+
 // signup API for worker
 app.post("/wkreg", bherifyjwt, upload.single("picture"), async (req, resp) => {
   try {
