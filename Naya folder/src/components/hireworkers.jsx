@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import {loadStripe} from '@stripe/stripe-js';
 import "./hireworkers.css";
 
 function Hireworker() {
@@ -23,9 +24,12 @@ function Hireworker() {
    
   };
 
-  const handleHire = (e) => {
+  const handleHire = async (e) => {
     e.preventDefault();
     alert("Payment to karna padiingaaaa meri Jaaaan");
+
+    const stripe = loadStripe("pk_test_51R8H4AI8b1DNSY4ZPVpPLsvIA1SPvM545REoU9DlI03eFrCAwWdyYd2XXavuf0GLp38c0DrHhJA2csSpZHJRc0Fr00zirJsyKB");
+
   };
 
   // Fetch workers when the component loads
@@ -62,7 +66,7 @@ function Hireworker() {
   return (
     <div className="xx">
 
-      <h1>Top workers near you are ...</h1>
+      <h1 style={{textAlign:"center" , color:"black"}}>Top workers near you are ...</h1>
       <div className="section">
         <input
           className="searchbar"
@@ -71,51 +75,53 @@ function Hireworker() {
           onChange={handleSearch} // Searches on each character
         />
 
-        <div className="grid">
-          {worker.length > 0 ? (
-            worker.map((item, index) => (
-              <div className="ingrid" key={index}>
-                <ul>
-                  <li>
-                    <img
-                      src={`http://localhost:3500/uploads/${item.picture}`} // Construct the image URL
-                      alt={`${item.name}'s profile`}
-                      style={{ marginTop:"100px" , width: "140px", height: "140px", borderRadius: "20%" }}
-                    />
-                    <hr style={{color:"orange"}} />
-                  </li>
-                  <li>Name: {item.name}</li>
-                  <li>Work-Type: {item.occupation}</li>
-                  <li>Exp: {item.experience}</li>
-                  <li>Cost: {item.wageperhr}rs/hr</li>
-                  <li>Contact: +91{item.mobile}</li>
-                  <li>📍Location: {item.location}</li>
-                  <li>
-                    <button
-                      style={{
-                        margin:"10px",
-                        background:" white",
-                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 5)",
-                        background: "linear-gradient(to right, #fefefe, #ffcc80, #ff9800) ",
-                        marginBottom:"20px",
-                        height: "30px",
-                        width: "200px",
-                        border:"0px",
-                        borderRadius: "10px",
-                        cursor: "grab",
-                      }}
-                      onClick={handleHire}
-                    >
-                      Hire me
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            ))
-          ) : (
-            <h1>No worker Here</h1>
-          )}
+<div className="grid">
+  {worker.length > 0 ? (
+    worker.map((item, index) => (
+      <div className="ingrid" key={index} style={{ display: "flex", alignItems: "center", margin: "20px", border: "1px solid #ccc",  borderRadius: "10px" }}>
+        {/* Image on the left */}
+        <div style={{ marginRight: "20px" }}>
+          <img
+            src={`http://localhost:3500/uploads/${item.picture}`}
+            alt={`${item.name}'s profile`}
+            style={{ width: "180px", height: "300px", borderRadius: "5px" }}
+          />
         </div>
+
+        {/* Details on the right */}
+        <div>
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            <li><strong>Name:</strong> {item.name}</li>
+            <hr />
+            <li><strong>Work-Type:</strong> {item.occupation}</li>
+            <hr />
+            <li><strong>Exp:</strong> {item.experience}yrs</li>
+            <hr />
+            <li><strong>Cost:</strong> {item.wageperhr}rs/hr</li>
+            <hr />
+            <li><strong>Contact & Payment:</strong> +91{item.mobile}</li>
+            <hr />
+            <li><strong>👍 83% users liked my service</strong></li>
+            
+            <li><strong>📍Location:</strong> {item.location}</li>
+            <li>
+              <button
+              className="hbtn"
+                
+                onClick={handleHire}
+              >
+                Hire me
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    ))
+  ) : (
+    <p>No workers found.</p>
+  )}
+</div>
+
       </div>
     </div>
   );
