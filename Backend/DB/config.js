@@ -1,3 +1,3 @@
 const mongoose = require("mongoose");
-
-mongoose.connect("mongodb://localhost:27017/worker360");
+const URL = "mongodb://localhost:27017/worker360";
+mongoose.connect(URL);
