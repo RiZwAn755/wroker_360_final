@@ -45,21 +45,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// setting up multer
+
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads')  // store image in uploads folder
+    cb(null, './uploads')  
   },
   filename: function (req, file, cb) {
 
-    cb(null, Date.now() + path.extname(file.originalname)); // to make a unique filename
+    cb(null, Date.now() + path.extname(file.originalname)); 
   }
 })
 
 const upload = multer({ storage })
 
-// signup API for client
+
 app.post("/clreg", async (req, resp) => {
 
   console.log("Received registration request:", req.body);
@@ -106,7 +106,6 @@ app.get('/' , (req,resp) =>{
 })
 
 
-// signup API for worker
 app.post("/wkreg", bherifyjwt, upload.single("picture"), async (req, resp) => {
   try {
     const { name, occupation, experience, wageperhr, location , mobile } = req.body;
@@ -141,22 +140,21 @@ app.post("/wkreg", bherifyjwt, upload.single("picture"), async (req, resp) => {
 // });
 
 
-// search API for finding worker based on wage per hr / loaction /name / occupation
 app.get("/search/:key", bherifyjwt, async (req, resp) => {
   try {
     const key = req.params.key;
 
-    // Check if the key is numeric
+    
     const isNumeric = !isNaN(key);
 
-    // Perform a case-insensitive search on multiple fields
+
     const result = await worker.find({
       $or: [
-        isNumeric ? { wageperhr: key } : null, // Match exact wage if numeric
+        isNumeric ? { wageperhr: key } : null, 
         { location: { $regex: key, $options: "i" } },
         { name: { $regex: key, $options: "i" } },
         { occupation: { $regex: key, $options: "i" } },
-      ].filter(Boolean), // Remove null conditions
+      ].filter(Boolean), 
     });
 
     if (result.length > 0) {
