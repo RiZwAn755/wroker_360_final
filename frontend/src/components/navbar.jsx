@@ -31,7 +31,7 @@ export default function Nav() {
           <div className="hidden md:flex md:items-center md:space-x-8">
             {auth ? (
               <>
-                <Link to="/" className="text-gray-700 hover:text-primary">Home</Link>
+                <Link to="/\" className="text-gray-700 hover:text-primary">Home</Link>
                 <Link to="/hireworker" className="text-gray-700 hover:text-primary">Hire Worker</Link>
                 <Link to="/addworker" className="text-gray-700 hover:text-primary">Register as Worker</Link>
                 <Link to="/aboutus" className="text-gray-700 hover:text-primary">About Us</Link>
@@ -59,7 +59,7 @@ export default function Nav() {
           <div className="md:hidden py-4">
             {auth ? (
               <div className="flex flex-col space-y-4">
-                <Link to="/" className="text-gray-700 hover:text-primary px-4 py-2 rounded-md hover:bg-gray-100">Home</Link>
+                <Link to="/\" className="text-gray-700 hover:text-primary px-4 py-2 rounded-md hover:bg-gray-100">Home</Link>
                 <Link to="/hireworker" className="text-gray-700 hover:text-primary px-4 py-2 rounded-md hover:bg-gray-100">Hire Worker</Link>
                 <Link to="/addworker" className="text-gray-700 hover:text-primary px-4 py-2 rounded-md hover:bg-gray-100">Register as Worker</Link>
                 <Link to="/aboutus" className="text-gray-700 hover:text-primary px-4 py-2 rounded-md hover:bg-gray-100">About Us</Link>
