@@ -1,0 +1,5 @@
+/* Add this to your global CSS file */
+#home, #hireworker, #aboutus, #addworker {
+  padding: 50px 20px;
+  min-height: 100vh; /* Ensure each section fills the viewport */
+}

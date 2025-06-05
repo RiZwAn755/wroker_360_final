@@ -1,0 +1,40 @@
+
+.loginfo
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid orange;
+    height: 70%;
+    border-radius: 40px;
+    margin: 10%;
+    padding: 20px;
+}
+
+.inpt{
+    width:40%;
+    height:40px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+     border: 1px solid orange;
+}
+
+.lognbtn
+{
+    border: 1px solid orange;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    width: 10%;
+    height: 40px;
+    border-radius: 5px;
+}
+.lognbtn:hover{
+    /* background: linear-gradient(to right, #ff7f00, #ff4500, #2a2a2a); */
+    /* background: linear-gradient(135deg, #ff8c00, #3d3d3d); */
+    /* background: linear-gradient(to right, #ff7f00, #ff4500, #2a2a2a, #f5f5f5);
+     */
+     background: linear-gradient(to right, #fefefe, #ffcc80, #ff9800);
+     cursor: pointer;
+}

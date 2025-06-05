@@ -1,0 +1,137 @@
+.xx
+{
+  height: 100vh;
+}
+.card
+{
+    display: inline-block;
+    border:2px solid black;
+    margin: 10px;
+    border-radius:10px;
+
+}
+p{
+    margin: 10px;
+}
+
+.section
+{
+    /* margin: 10px; */
+    /* border:2px solid black; */
+   height: 90vh;
+    /* border-radius: 10px; */
+    
+}
+
+.sectionHeading
+{
+    color: black;
+    text-align: center;
+}
+
+
+.photo
+{
+  margin:10px;
+  width: 400px;
+  height:250px;  
+  border-radius: 10px ;
+}
+
+.btnn
+{
+    background-color: aquamarine;
+    margin-left:170px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+}
+.searchbar
+{
+    margin-left: 30%;
+    /* background: linear-gradient(to right, #fefefe, #ffcc80, #ff9800); */
+    margin-bottom: 5x;
+    margin-top: 10px;
+    width: 40%;
+    height: 50px;
+    border:2px solid  orange;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: 900;
+    font-size: x-large;
+}
+.sbt
+{
+    width:80px;
+    height: 50px;
+    background-color: white;
+    
+    cursor:grab;
+   border: 2px solid cornflowerblue;
+    font-size: xx-large;
+    border-radius: 20px;
+}
+
+.cc
+{
+    margin-top: 5px;
+    margin-left:47%;
+}
+
+.grid {
+  /* background-color: blueviolet; */
+  border-radius: 10px;
+  margin: 1%;
+ 
+  height: 85%;
+  display: flex;
+  flex-wrap: wrap; /* Ensure responsiveness */
+  gap: 5px; /* Reduce gap between items */
+  overflow-y: scroll;
+  justify-content: center; /* Center items in the grid */
+  align-items: flex-start; /* Ensure items start at the top */
+}
+
+.ingrid {  
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 5);
+  background-color:white;
+ border: 1px solid orange;
+  border-radius: 20px;
+  width: 500px; /* Fixed width */
+  height: 400px; /* Fixed height */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: flex-end; /* Align content to the bottom */
+  box-sizing: border-box; /* Ensures padding and border are included in size */
+  overflow: hidden; 
+}
+
+.hbtn {
+  margin-top: 10px;
+  height: 30px;
+  width: 200px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  background: white;
+  border: 1px solid orange;
+}
+
+.hbtn:hover {
+  background: linear-gradient(to right, #fefefe, #ffcc80, #ff9800);
+}
+
+.ingrid ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  list-style-type: none;
+  padding: 0;
+}
