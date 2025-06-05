@@ -1,13 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Aboutus from "./components/aboutUs";
 import Nav from "./components/navbar";
-import Hero from "./components/hero";
-import Hireworker from "./components/hireworkers";
-import Login from "./components/login";
 import Private from "./components/privateComp";
-import Signup from "./components/signup";
 import Footer from "./components/footer";
-import AddWorker from "./components/addworker";
+
+// Pages
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Workers from "./pages/Workers";
+import Register from "./pages/Register";
+import LoginPage from "./pages/Auth/Login";
+import SignupPage from "./pages/Auth/Signup";
 
 function App() {
   return (
@@ -19,15 +21,15 @@ function App() {
           <Routes>
             {/* Protected Routes */}
             <Route element={<Private />}>
-              <Route path="/" element={<Hero />} />
-              <Route path="/hireworker" element={<Hireworker />} />
-              <Route path="/aboutus" element={<Aboutus />} />
-              <Route path="/addworker" element={<AddWorker />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/hireworker" element={<Workers />} />
+              <Route path="/aboutus" element={<About />} />
+              <Route path="/addworker" element={<Register />} />
             </Route>
 
             {/* Public Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
           </Routes>
         </div>
 

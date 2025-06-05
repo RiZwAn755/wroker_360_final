@@ -1,5 +1,75 @@
-/* Add this to your global CSS file */
+:root {
+  --primary-color: #ff9100;
+  --secondary-color: #000000;
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --border-radius: 10px;
+  --box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--primary-color);
+  background: white;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: linear-gradient(to right, #fefefe, #ffcc80, var(--primary-color));
+  transform: translateY(-2px);
+}
+
+.card {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 20px;
+  margin: 10px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  margin: 10px 0;
+}
+
+/* Section styles */
 #home, #hireworker, #aboutus, #addworker {
   padding: 50px 20px;
-  min-height: 100vh; /* Ensure each section fills the viewport */
+  min-height: 100vh;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+  
+  .btn {
+    width: 100%;
+  }
 }
